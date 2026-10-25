@@ -1,13 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-
-function formatDate(date: Date) {
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, "0");
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const year = d.getFullYear();
-  return `${day}/${month}/${year}`;
-}
+import { PrintReportButton } from "@/components/report-actions";
 
 export default async function ReportesPage() {
   const [rodillos, totalMediciones, totalAlertas] = await Promise.all([
@@ -34,16 +27,7 @@ export default async function ReportesPage() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => {}}
-          className="inline-flex items-center gap-1.5 rounded-md bg-[#133863] px-3.5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[#0c2442] transition-colors"
-        >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-          </svg>
-          <span>Imprimir reporte</span>
-        </button>
+        <PrintReportButton />
       </div>
 
       {/* Summary KPI Cards */}

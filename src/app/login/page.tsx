@@ -5,41 +5,41 @@ import { LoginForm } from "@/components/login-form";
 export default function LoginPage() {
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row bg-white">
-      {/* Left Side: Industrial Imagery & Branding (Full height, 50% width) */}
-      <div className="relative md:w-1/2 min-h-[340px] md:min-h-screen bg-[#0c2340] text-white p-8 md:p-16 flex flex-col justify-between overflow-hidden">
-        {/* Background image: Authentic sugar mill machinery without text */}
+      {/* Left Side: Official Machinery Image & Official Logo (50% width, min-h-screen) */}
+      <div className="relative md:w-1/2 min-h-[380px] md:min-h-screen bg-[#0c2340] text-white p-8 md:p-16 flex flex-col justify-between overflow-hidden">
+        {/* Background Image: Official photograph provided by user */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/clean-machinery-bg.jpg"
-            alt="Maquinaria y rodillos de molienda"
+            src="/login-machinery.jpg"
+            alt="Rodillos de molienda de caña de azúcar"
             fill
-            className="object-cover object-center opacity-65"
+            className="object-cover object-center scale-105"
             priority
           />
-          {/* Deep navy blue tint overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#09182d]/95 via-[#0c2340]/75 to-[#0d294d]/60" />
+          {/* Deep industrial navy gradient overlay for readability and color-grade */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#081729]/95 via-[#0c2340]/80 to-[#0e2c52]/65" />
         </div>
 
-        {/* Top: Logo and Main Title */}
-        <div className="relative z-10 space-y-4 pt-4 md:pt-8">
-          {/* Logo icon with NO outer box, directly white line art */}
-          <div>
-            <BrandIcon className="w-12 h-12 text-white" light={true} />
+        {/* Top Branding: Official Logo + Title */}
+        <div className="relative z-10 space-y-5 pt-4 md:pt-8">
+          {/* Official logo icon without box */}
+          <div className="w-16 h-14 relative">
+            <BrandIcon className="w-16 h-14" light={true} />
           </div>
 
-          <div className="pt-2">
+          <div>
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
               Sistema de Trazabilidad
               <br />
               de Mediciones
             </h1>
-            <p className="mt-2 text-sm md:text-base font-normal text-blue-100/90 tracking-wide">
+            <p className="mt-2 text-sm md:text-base font-normal text-slate-200 tracking-wide">
               Ingenios Azucareros
             </p>
           </div>
         </div>
 
-        {/* Bottom Slogan with subtle divider line */}
+        {/* Bottom Slogan with subtle divider */}
         <div className="relative z-10 pb-4 md:pb-8">
           <div className="w-full pt-6 border-t border-white/20">
             <p className="text-xs md:text-sm font-medium tracking-wide text-slate-200">
@@ -49,7 +49,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Side: Login Form (Full height, 50% width) */}
+      {/* Right Side: Login Form (50% width, min-h-screen) */}
       <div className="md:w-1/2 flex flex-col justify-between bg-white p-8 md:p-16 min-h-[480px] md:min-h-screen">
         <div className="my-auto max-w-md w-full mx-auto">
           <div className="mb-8">
