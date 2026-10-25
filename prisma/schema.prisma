@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  SUPERVISOR
+  OPERADOR
+}
+
+enum EstadoRodillo {
+  EN_SERVICIO
+  TALLER
+  REPUESTO
+  FUERA_USO
+  EN_OPERACION
+  EN_REVISION
+  FUERA_RANGO
+}
+
+enum TipoAlerta {
+  DIAMETRO_MINIMO
+  DESGASTE_ACELERADO
+  MEDICION_VENCIDA
+  TEMPERATURA
+  FUERA_DE_RANGO
+  CONICIDAD_ALTA
+}
+
+model User {
+  id           String      @id @default(cuid())
+  name         String
+  username     String      @unique
+  email        String?     @unique
+  passwordHash String
+  role         Role        @default(OPERADOR)
+  active       Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  mediciones   Medicion[]
+  alertas      Alerta[]    @relation("AlertaResueltaPor")
+}
+
+model Rodillo {
+  id               String         @id @default(cuid())
+  codigo           String         @unique
+  nombre           String?
+  ubicacion        String?
+  molino           String         @default("Tren 1")
+  posicion         String         @default("Maza Superior")
+  diametroOriginal Float          @default(620)
+  diametroMinimo   Float          @default(560)
+  diametroActual   Float          @default(612)
+  estado           EstadoRodillo  @default(EN_OPERACION)
+  campania         String?
+  notas            String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  mediciones       Medicion[]
+  mantenimientos   Mantenimiento[]
+  alertas          Alerta[]
+}
+
+model Medicion {
+  id                String   @id @default(cuid())
+  rodilloId         String
+  rodillo           Rodillo  @relation(fields: [rodilloId], references: [id], onDelete: Cascade)
+  parametro         String   @default("Diámetro")
+  valor             Float    @default(0)
+  unidad            String   @default("mm")
+  estado            String   @default("Normal")
+  diametro          Float    @default(0)
+  profundidadRanura Float?
+  anguloRanura      Float?
+  horasOperacion    Float?
+  toneladas         Float?
+  temperaturaBronce Float?
+  observaciones     String?
+  fecha             DateTime @default(now())
+  usuarioId         String
+  usuario           User     @relation(fields: [usuarioId], references: [id])
+  createdAt         DateTime @default(now())
+
+  @@index([rodilloId, fecha])
+}
+
+model RangoTecnico {
+  id        String   @id @default(cuid())
+  parametro String   @unique
+  minimo    Float
+  maximo    Float
+  unidad    String   @default("mm")
+  activo    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Mantenimiento {
+  id          String   @id @default(cuid())
+  rodilloId   String
+  rodillo     Rodillo  @relation(fields: [rodilloId], references: [id], onDelete: Cascade)
+  tipo        String
+  descripcion String?
+  fecha       DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@index([rodilloId, fecha])
+}
+
+model Alerta {
+  id              String     @id @default(cuid())
+  rodilloId       String
+  rodillo         Rodillo    @relation(fields: [rodilloId], references: [id], onDelete: Cascade)
+  tipo            TipoAlerta @default(FUERA_DE_RANGO)
+  parametro       String?
+  valor           Float?
+  unidad          String?    @default("mm")
+  rango           String?
+  estado          String     @default("Fuera de rango")
+  mensaje         String
+  resuelta        Boolean    @default(false)
+  resueltaPorId   String?
+  resueltaPor     User?      @relation("AlertaResueltaPor", fields: [resueltaPorId], references: [id])
+  resueltaEn      DateTime?
+  createdAt       DateTime   @default(now())
+
+  @@index([resuelta, createdAt])
+}

@@ -1,0 +1,8 @@
+RESUMEN ESTADÍSTICO (DATOS SIMULADOS)
+Total registros: 48
+Registros incompletos: 7 (14.6%)
+Desviaciones respecto a rangos de prueba: 13 (27.1%)
+Desviaciones por molino (simulado): {'Molino 1': 6, 'Molino 2': 7}
+Diámetro promedio (mm): 887.3
+Temperatura promedio (°C): 66.3
+IMPORTANTE: estos datos son ficticios y solo sirven para demostrar el prototipo académico.

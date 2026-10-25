@@ -1,0 +1,49 @@
+id_registro,codigo_rodillo,molino,posicion,fecha,diametro_mm,diametro_minimo_simulado_mm,profundidad_ranura_mm,temp_bronce_c,horas_operacion,responsable,completo,desviacion_simulada,observaciones,nota
+R001,SIM-M1-SUP-01,Molino 1,Superior,2026-06-01,904.6,860,19.7,56.5,139.3,Supervisor C,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R002,SIM-M1-SUP-01,Molino 1,Superior,2026-06-08,902.8,860,,46.5,,Operador A,NO,NO,Registro incompleto,DATO SIMULADO - no corresponde a Guabirá
+R003,SIM-M1-SUP-01,Molino 1,Superior,2026-06-17,901.1,860,29.9,71.4,113.6,Operador B,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R004,SIM-M1-SUP-01,Molino 1,Superior,2026-06-24,900.1,860,20.7,85.9,113.8,Operador B,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R005,SIM-M1-SUP-01,Molino 1,Superior,2026-06-29,899.4,860,,80.9,,Operador B,NO,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R006,SIM-M1-SUP-01,Molino 1,Superior,2026-07-06,898.2,860,18.7,61.2,116.8,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R007,SIM-M1-SUP-01,Molino 1,Superior,2026-07-14,897.8,860,33.1,58.8,108.9,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R008,SIM-M1-SUP-01,Molino 1,Superior,2026-07-22,897.5,860,34.7,76.1,148.4,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R009,SIM-M1-CAN-01,Molino 1,Cañera,2026-06-02,888.2,850,21.6,62.1,101.4,Supervisor C,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R010,SIM-M1-CAN-01,Molino 1,Cañera,2026-06-10,887.8,850,22.2,74.8,117.0,Operador B,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R011,SIM-M1-CAN-01,Molino 1,Cañera,2026-06-17,885.8,850,31.1,55.3,84.5,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R012,SIM-M1-CAN-01,Molino 1,Cañera,2026-06-23,884.6,850,27.6,48.1,137.4,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R013,SIM-M1-CAN-01,Molino 1,Cañera,2026-07-01,883.1,850,20.4,86.6,91.2,Supervisor C,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R014,SIM-M1-CAN-01,Molino 1,Cañera,2026-07-08,881.5,850,27.9,80.1,109.0,Operador A,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R015,SIM-M1-CAN-01,Molino 1,Cañera,2026-07-15,880.0,850,20.6,80.5,92.8,Supervisor C,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R016,SIM-M1-CAN-01,Molino 1,Cañera,2026-07-21,878.3,850,26.0,63.1,100.1,Supervisor C,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R017,SIM-M1-BAG-01,Molino 1,Bagacera,2026-06-01,881.8,850,30.8,50.4,141.5,Operador B,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R018,SIM-M1-BAG-01,Molino 1,Bagacera,2026-06-08,880.9,850,,52.4,,Supervisor C,NO,NO,Registro incompleto,DATO SIMULADO - no corresponde a Guabirá
+R019,SIM-M1-BAG-01,Molino 1,Bagacera,2026-06-17,880.0,850,33.5,68.5,149.6,Operador B,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R020,SIM-M1-BAG-01,Molino 1,Bagacera,2026-06-24,878.5,850,20.7,54.3,156.3,Supervisor C,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R021,SIM-M1-BAG-01,Molino 1,Bagacera,2026-06-29,876.7,850,,68.0,,Operador B,NO,NO,Registro incompleto,DATO SIMULADO - no corresponde a Guabirá
+R022,SIM-M1-BAG-01,Molino 1,Bagacera,2026-07-07,875.9,850,19.3,56.3,138.6,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R023,SIM-M1-BAG-01,Molino 1,Bagacera,2026-07-15,873.7,850,27.3,51.0,101.2,Supervisor C,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R024,SIM-M1-BAG-01,Molino 1,Bagacera,2026-07-21,871.0,850,29.7,88.7,137.0,Operador B,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R025,SIM-M2-SUP-01,Molino 2,Superior,2026-06-03,900.9,860,22.2,87.3,85.1,Operador A,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R026,SIM-M2-SUP-01,Molino 2,Superior,2026-06-10,899.3,860,,72.7,,Supervisor C,NO,NO,Registro incompleto,DATO SIMULADO - no corresponde a Guabirá
+R027,SIM-M2-SUP-01,Molino 2,Superior,2026-06-17,898.9,860,,48.2,,Operador B,NO,NO,Registro incompleto,DATO SIMULADO - no corresponde a Guabirá
+R028,SIM-M2-SUP-01,Molino 2,Superior,2026-06-22,897.4,860,27.2,58.1,137.9,Supervisor C,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R029,SIM-M2-SUP-01,Molino 2,Superior,2026-07-01,895.9,860,21.2,81.9,87.8,Operador B,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R030,SIM-M2-SUP-01,Molino 2,Superior,2026-07-07,894.6,860,29.4,67.0,158.7,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R031,SIM-M2-SUP-01,Molino 2,Superior,2026-07-13,893.4,860,22.2,60.9,95.2,Operador B,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R032,SIM-M2-SUP-01,Molino 2,Superior,2026-07-20,892.1,860,33.7,58.1,115.5,Supervisor C,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R033,SIM-M2-CAN-01,Molino 2,Cañera,2026-06-03,890.9,850,33.7,84.3,147.9,Operador A,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R034,SIM-M2-CAN-01,Molino 2,Cañera,2026-06-09,889.5,850,19.0,55.0,110.3,Operador B,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R035,SIM-M2-CAN-01,Molino 2,Cañera,2026-06-16,886.9,850,29.8,81.9,138.4,Supervisor C,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R036,SIM-M2-CAN-01,Molino 2,Cañera,2026-06-24,884.8,850,34.5,52.3,126.3,Supervisor C,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R037,SIM-M2-CAN-01,Molino 2,Cañera,2026-06-29,882.6,850,26.5,47.7,148.2,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R038,SIM-M2-CAN-01,Molino 2,Cañera,2026-07-06,879.9,850,28.1,48.8,134.0,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R039,SIM-M2-CAN-01,Molino 2,Cañera,2026-07-14,879.4,850,28.1,86.8,129.6,Operador B,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R040,SIM-M2-CAN-01,Molino 2,Cañera,2026-07-22,877.7,850,21.5,69.6,137.3,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R041,SIM-M2-BAG-01,Molino 2,Bagacera,2026-06-01,889.6,850,30.8,59.1,85.8,Operador B,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R042,SIM-M2-BAG-01,Molino 2,Bagacera,2026-06-10,886.8,850,,91.8,,Operador A,NO,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R043,SIM-M2-BAG-01,Molino 2,Bagacera,2026-06-17,885.9,850,32.9,88.9,109.6,Operador A,SI,SI,Temperatura elevada (rango de prueba),DATO SIMULADO - no corresponde a Guabirá
+R044,SIM-M2-BAG-01,Molino 2,Bagacera,2026-06-23,883.5,850,34.8,78.1,132.3,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R045,SIM-M2-BAG-01,Molino 2,Bagacera,2026-07-01,881.2,850,34.0,59.1,90.7,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R046,SIM-M2-BAG-01,Molino 2,Bagacera,2026-07-06,879.1,850,21.6,52.3,107.4,Supervisor C,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R047,SIM-M2-BAG-01,Molino 2,Bagacera,2026-07-15,876.7,850,33.4,68.8,84.1,Supervisor C,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
+R048,SIM-M2-BAG-01,Molino 2,Bagacera,2026-07-21,874.3,850,20.2,47.1,158.4,Operador A,SI,NO,,DATO SIMULADO - no corresponde a Guabirá
