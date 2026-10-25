@@ -39,22 +39,26 @@ export function MedicionForm({
 
   return (
     <form
-      className="grid gap-3 rounded-lg border border-[#d9cdc0] bg-white p-4 shadow-sm sm:grid-cols-2"
+      className="grid gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-xs sm:grid-cols-2 text-xs"
       onSubmit={(e) => {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
         setError(null);
         start(async () => {
           const result = editing ? await updateMedicion(fd) : await createMedicion(fd);
-          if (!result.ok) setError(result.error);
-          else router.push("/mediciones");
+          if (!result.ok) {
+            setError(result.error);
+          } else {
+            router.push("/historial");
+            router.refresh();
+          }
         });
       }}
     >
       {editing && <input type="hidden" name="id" value={medicion.id} />}
 
-      <label className="sm:col-span-2 block text-sm">
-        <span className="mb-1 block font-medium text-[#5c4d44]">Rodillo</span>
+      <label className="sm:col-span-2 block">
+        <span className="mb-1 block font-semibold text-slate-700">Rodillo *</span>
         <select
           name="rodilloId"
           required
@@ -62,19 +66,18 @@ export function MedicionForm({
           defaultValue={medicion?.rodilloId ?? ""}
         >
           <option value="" disabled>
-            Seleccionar...
+            Seleccionar rodillo...
           </option>
           {rodillos.map((r) => (
             <option key={r.id} value={r.id}>
-              {r.codigo} · {r.molino} · {r.posicion} (actual {r.diametroActual} mm / mín{" "}
-              {r.diametroMinimo} mm)
+              {r.codigo} · {r.molino} · {r.posicion} (actual {r.diametroActual} mm / mín {r.diametroMinimo} mm)
             </option>
           ))}
         </select>
       </label>
 
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium text-[#5c4d44]">Diámetro (mm) *</span>
+      <label className="block">
+        <span className="mb-1 block font-semibold text-slate-700">Diámetro (mm) *</span>
         <input
           name="diametro"
           type="number"
@@ -84,8 +87,9 @@ export function MedicionForm({
           className="input"
         />
       </label>
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium text-[#5c4d44]">Prof. ranura (mm)</span>
+
+      <label className="block">
+        <span className="mb-1 block font-semibold text-slate-700">Prof. ranura (mm)</span>
         <input
           name="profundidadRanura"
           type="number"
@@ -94,8 +98,9 @@ export function MedicionForm({
           className="input"
         />
       </label>
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium text-[#5c4d44]">Ángulo ranura (°)</span>
+
+      <label className="block">
+        <span className="mb-1 block font-semibold text-slate-700">Ángulo ranura (°)</span>
         <input
           name="anguloRanura"
           type="number"
@@ -104,8 +109,9 @@ export function MedicionForm({
           className="input"
         />
       </label>
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium text-[#5c4d44]">Horas operación</span>
+
+      <label className="block">
+        <span className="mb-1 block font-semibold text-slate-700">Horas operación</span>
         <input
           name="horasOperacion"
           type="number"
@@ -114,8 +120,9 @@ export function MedicionForm({
           className="input"
         />
       </label>
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium text-[#5c4d44]">Toneladas</span>
+
+      <label className="block">
+        <span className="mb-1 block font-semibold text-slate-700">Toneladas</span>
         <input
           name="toneladas"
           type="number"
@@ -124,8 +131,9 @@ export function MedicionForm({
           className="input"
         />
       </label>
-      <label className="block text-sm">
-        <span className="mb-1 block font-medium text-[#5c4d44]">Temp. bronce (°C)</span>
+
+      <label className="block">
+        <span className="mb-1 block font-semibold text-slate-700">Temp. bronce (°C)</span>
         <input
           name="temperaturaBronce"
           type="number"
@@ -134,25 +142,33 @@ export function MedicionForm({
           className="input"
         />
       </label>
-      <label className="sm:col-span-2 block text-sm">
-        <span className="mb-1 block font-medium text-[#5c4d44]">Observaciones</span>
+
+      <label className="sm:col-span-2 block">
+        <span className="mb-1 block font-semibold text-slate-700">Observaciones</span>
         <textarea
           name="observaciones"
           rows={3}
           defaultValue={medicion?.observaciones ?? ""}
           className="input"
+          placeholder="Opcional..."
         />
       </label>
 
-      {error && <p className="sm:col-span-2 text-sm text-red-700">{error}</p>}
+      {error && (
+        <div className="sm:col-span-2 rounded-md bg-red-50 p-3 text-xs text-red-700 border border-red-200">
+          {error}
+        </div>
+      )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="sm:col-span-2 rounded bg-[#8b1528] px-4 py-2.5 font-medium text-white hover:bg-[#6f1020] disabled:opacity-60"
-      >
-        {pending ? "Guardando..." : editing ? "Guardar cambios" : "Guardar medición"}
-      </button>
+      <div className="sm:col-span-2 flex justify-end gap-3 pt-3 border-t border-slate-100">
+        <button
+          type="submit"
+          disabled={pending}
+          className="rounded-md bg-[#133863] px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[#0c2442] disabled:opacity-60 transition-colors"
+        >
+          {pending ? "Guardando..." : editing ? "Guardar cambios" : "Guardar medición"}
+        </button>
+      </div>
     </form>
   );
 }

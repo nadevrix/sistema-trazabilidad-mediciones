@@ -18,7 +18,7 @@ interface AppShellProps {
   alertasCount?: number;
 }
 
-export function AppShell({ children, user, alertasCount = 3 }: AppShellProps) {
+export function AppShell({ children, user, alertasCount = 0 }: AppShellProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
@@ -159,6 +159,15 @@ export function AppShell({ children, user, alertasCount = 3 }: AppShellProps) {
                   >
                     Configuración
                   </Link>
+                  {user.role === "ADMIN" && (
+                    <Link
+                      href="/admin/usuarios"
+                      className="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-50"
+                      onClick={() => setUserDropdownOpen(false)}
+                    >
+                      Usuarios y roles
+                    </Link>
+                  )}
                   <form action={logoutAction}>
                     <button
                       type="submit"

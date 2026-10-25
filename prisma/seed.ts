@@ -23,11 +23,29 @@ async function main() {
       name,
       passwordHash,
       role: Role.ADMIN,
-      email: "jperez@trazabilidad.local",
+      email: "admin@trazabilidad.local",
     },
   });
 
-  console.log(`Usuario administrador: ${admin.username} (${admin.name})`);
+  const tecnicoHash = await hash("Tecnico123!", 12);
+  const tecnico = await prisma.user.upsert({
+    where: { username: "tecnico" },
+    update: {
+      name: "Carlos Mendoza (Técnico)",
+      passwordHash: tecnicoHash,
+      role: Role.OPERADOR,
+      active: true,
+    },
+    create: {
+      username: "tecnico",
+      name: "Carlos Mendoza (Técnico)",
+      passwordHash: tecnicoHash,
+      role: Role.OPERADOR,
+      email: "cmendoza@trazabilidad.local",
+    },
+  });
+
+  console.log(`Usuarios: ${admin.username} (Admin), ${tecnico.username} (Técnico)`);
 
   // Rangos técnicos
   const rangos = [
@@ -60,7 +78,6 @@ async function main() {
     { codigo: "R-12", nombre: "Rodillo 12", ubicacion: "Tren 6", molino: "Tren 6", posicion: "Maza Bagacera", diametroActual: 616, diametroOriginal: 620, diametroMinimo: 560, estado: EstadoRodillo.EN_OPERACION },
   ];
 
-  // Limpiar rodillos viejos de muestra que no coincidan con R-xx si existen
   await prisma.medicion.deleteMany({});
   await prisma.alerta.deleteMany({});
   await prisma.rodillo.deleteMany({
@@ -90,13 +107,6 @@ async function main() {
 
   console.log(`12 Rodillos cargados correctamente.`);
 
-  // Mediciones del Dashboard (exactas a la imagen de diseño)
-  // 10/04/2025 09:15 | R-01 | Diámetro | 612 mm | Normal
-  // 10/04/2025 08:42 | R-03 | Desgaste | 3.2 mm | Normal
-  // 10/04/2025 08:30 | R-02 | Diámetro | 598 mm | Fuera de rango
-  // 10/04/2025 08:10 | R-04 | Conicidad | 1.8 mm | Normal
-  // 10/04/2025 07:56 | R-01 | Desgaste | 2.9 mm | Normal
-
   const baseDate = new Date("2025-04-10T09:32:00Z");
 
   const medicionesFijas = [
@@ -109,6 +119,7 @@ async function main() {
       estado: "Normal",
       fecha: new Date("2025-04-10T09:15:00Z"),
       observaciones: "Medición rutinaria en turno de la mañana",
+      usuarioId: admin.id,
     },
     {
       rodilloCodigo: "R-03",
@@ -119,16 +130,18 @@ async function main() {
       estado: "Normal",
       fecha: new Date("2025-04-10T08:42:00Z"),
       observaciones: "Desgaste superficial dentro de la tolerancia",
+      usuarioId: tecnico.id,
     },
     {
-      rodilloCodigo: "R-02",
+      rodilloCodigo: "R-05",
       parametro: "Diámetro",
-      valor: 598,
-      diametro: 598,
+      valor: 550,
+      diametro: 550,
       unidad: "mm",
       estado: "Fuera de rango",
       fecha: new Date("2025-04-10T08:30:00Z"),
-      observaciones: "Lectura de diámetro por debajo del valor de seguridad",
+      observaciones: "Diámetro crítico inferior al mínimo admisible (560 mm)",
+      usuarioId: admin.id,
     },
     {
       rodilloCodigo: "R-04",
@@ -139,6 +152,7 @@ async function main() {
       estado: "Normal",
       fecha: new Date("2025-04-10T08:10:00Z"),
       observaciones: "Conicidad verificada con calibre de precisión",
+      usuarioId: tecnico.id,
     },
     {
       rodilloCodigo: "R-01",
@@ -149,6 +163,7 @@ async function main() {
       estado: "Normal",
       fecha: new Date("2025-04-10T07:56:00Z"),
       observaciones: "Control de inicio de jornada",
+      usuarioId: admin.id,
     },
   ];
 
@@ -157,7 +172,7 @@ async function main() {
     await prisma.medicion.create({
       data: {
         rodilloId,
-        usuarioId: admin.id,
+        usuarioId: m.usuarioId,
         parametro: m.parametro,
         valor: m.valor,
         unidad: m.unidad,
@@ -169,7 +184,7 @@ async function main() {
     });
   }
 
-  // Generar mediciones adicionales para completar las "48 mediciones hoy"
+  // Mediciones adicionales para el historial (48 mediciones totales)
   const parametros = ["Diámetro", "Desgaste", "Conicidad"];
   const codigos = Array.from(rodilloMap.keys());
 
@@ -190,7 +205,7 @@ async function main() {
     await prisma.medicion.create({
       data: {
         rodilloId: rodilloMap.get(cod)!,
-        usuarioId: admin.id,
+        usuarioId: i % 2 === 0 ? admin.id : tecnico.id,
         parametro: param,
         valor: val,
         unidad: "mm",
@@ -204,33 +219,29 @@ async function main() {
 
   console.log(`48 mediciones registradas.`);
 
-  // 3 Alertas activas (como se muestra en el diseño en pantalla 6)
-  // 10/04/2025 08:30 | R-02 | Diámetro | 598 mm | 560 - 620 | Fuera de rango
-  // 09/04/2025 16:20 | R-05 | Desgaste | 5.8 mm | 0.0 - 5.0 | Fuera de rango
-  // 08/04/2025 11:15 | R-03 | Conicidad | 2.4 mm | 0.0 - 2.0 | Fuera de rango
-
+  // 3 Alertas activas con justificación técnica matemática exacta
   const alertasData = [
     {
-      rodilloCodigo: "R-02",
+      rodilloCodigo: "R-05",
       parametro: "Diámetro",
-      valor: 598,
+      valor: 550,
       unidad: "mm",
       rango: "560 - 620",
       estado: "Fuera de rango",
-      tipo: TipoAlerta.FUERA_DE_RANGO,
-      mensaje: "Medición de diámetro fuera de rango admisible (598 mm)",
+      tipo: TipoAlerta.DIAMETRO_MINIMO,
+      mensaje: "Medición de diámetro fuera de rango admisible (550 mm inferior al límite mínimo de 560 mm)",
       createdAt: new Date("2025-04-10T08:30:00Z"),
       resuelta: false,
     },
     {
-      rodilloCodigo: "R-05",
+      rodilloCodigo: "R-02",
       parametro: "Desgaste",
-      valor: 5.8,
+      valor: 5.6,
       unidad: "mm",
       rango: "0.0 - 5.0",
       estado: "Fuera de rango",
       tipo: TipoAlerta.DESGASTE_ACELERADO,
-      mensaje: "Desgaste excedió el límite máximo tolerado (5.8 mm)",
+      mensaje: "Desgaste excedió el límite máximo tolerado (5.6 mm fuera de 0.0 - 5.0 mm)",
       createdAt: new Date("2025-04-09T16:20:00Z"),
       resuelta: false,
     },
@@ -242,7 +253,7 @@ async function main() {
       rango: "0.0 - 2.0",
       estado: "Fuera de rango",
       tipo: TipoAlerta.FUERA_DE_RANGO,
-      mensaje: "Conicidad irregular superior a 2.0 mm (2.4 mm)",
+      mensaje: "Conicidad irregular superior a la tolerancia (2.4 mm fuera de 0.0 - 2.0 mm)",
       createdAt: new Date("2025-04-08T11:15:00Z"),
       resuelta: false,
     },
@@ -265,7 +276,7 @@ async function main() {
     });
   }
 
-  console.log(`3 alertas activas cargadas.`);
+  console.log(`3 alertas activas cargadas con coherencia técnica.`);
   console.log(`Seed finalizado exitosamente.`);
 }
 

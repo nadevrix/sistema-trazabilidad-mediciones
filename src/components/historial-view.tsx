@@ -14,6 +14,7 @@ interface HistorialMedicion {
   valor: number;
   unidad: string;
   estado: string;
+  usuarioNombre: string;
 }
 
 interface RodilloOption {
@@ -31,18 +32,23 @@ export function HistorialView({
 }) {
   const [selectedRodillo, setSelectedRodillo] = useState<string>("todos");
   const [selectedParametro, setSelectedParametro] = useState<string>("todos");
-  const [fechaDesde, setFechaDesde] = useState<string>("2025-03-10");
-  const [fechaHasta, setFechaHasta] = useState<string>("2025-04-10");
+  const [fechaDesde, setFechaDesde] = useState<string>("");
+  const [fechaHasta, setFechaHasta] = useState<string>("");
 
   const [activeFilters, setActiveFilters] = useState({
     rodillo: "todos",
     parametro: "todos",
-    desde: "2025-03-10",
-    hasta: "2025-04-10",
+    desde: "",
+    hasta: "",
   });
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
+
+  const availableParametros = useMemo(() => {
+    const list = Array.from(new Set(mediciones.map((m) => m.parametro)));
+    return list.length > 0 ? list : ["Diámetro", "Desgaste", "Conicidad"];
+  }, [mediciones]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,6 +57,20 @@ export function HistorialView({
       parametro: selectedParametro,
       desde: fechaDesde,
       hasta: fechaHasta,
+    });
+    setCurrentPage(1);
+  };
+
+  const handleReset = () => {
+    setSelectedRodillo("todos");
+    setSelectedParametro("todos");
+    setFechaDesde("");
+    setFechaHasta("");
+    setActiveFilters({
+      rodillo: "todos",
+      parametro: "todos",
+      desde: "",
+      hasta: "",
     });
     setCurrentPage(1);
   };
@@ -85,6 +105,12 @@ export function HistorialView({
   const startIndex = (currentPage - 1) * pageSize;
   const currentItems = filtered.slice(startIndex, startIndex + pageSize);
 
+  const hasActiveFilters =
+    activeFilters.rodillo !== "todos" ||
+    activeFilters.parametro !== "todos" ||
+    activeFilters.desde !== "" ||
+    activeFilters.hasta !== "";
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -93,7 +119,7 @@ export function HistorialView({
           Historial de mediciones
         </h1>
         <p className="text-xs text-slate-500 mt-0.5">
-          Consulta el historial de mediciones por rodillo y parámetro
+          Consulta el historial de mediciones por rodillo, parámetro y fecha
         </p>
       </div>
 
@@ -102,7 +128,7 @@ export function HistorialView({
         onSubmit={handleSearch}
         className="rounded-xl border border-slate-200 bg-white p-4 shadow-xs"
       >
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 items-end">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6 items-end">
           {/* Rodillo filter */}
           <div>
             <label className="mb-1 block text-xs font-semibold text-slate-700">
@@ -133,9 +159,11 @@ export function HistorialView({
               className="input text-xs py-2"
             >
               <option value="todos">Todos</option>
-              <option value="Diámetro">Diámetro</option>
-              <option value="Desgaste">Desgaste</option>
-              <option value="Conicidad">Conicidad</option>
+              {availableParametros.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -169,12 +197,24 @@ export function HistorialView({
           <div>
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 rounded-md bg-[#133863] py-2 px-4 text-xs font-semibold text-white shadow-xs hover:bg-[#0c2442] transition-colors"
+              className="w-full flex items-center justify-center gap-1.5 rounded-md bg-[#133863] py-2 px-3 text-xs font-semibold text-white shadow-xs hover:bg-[#0c2442] transition-colors"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <span>Buscar</span>
+            </button>
+          </div>
+
+          {/* Reset Filters */}
+          <div>
+            <button
+              type="button"
+              onClick={handleReset}
+              disabled={!hasActiveFilters && !fechaDesde && !fechaHasta && selectedRodillo === "todos" && selectedParametro === "todos"}
+              className="w-full flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white py-2 px-3 text-xs font-medium text-slate-700 shadow-xs hover:bg-slate-50 disabled:opacity-40 transition-colors"
+            >
+              <span>Limpiar</span>
             </button>
           </div>
         </div>
@@ -191,6 +231,7 @@ export function HistorialView({
                 <th className="py-3 px-4">Parámetro</th>
                 <th className="py-3 px-4">Valor</th>
                 <th className="py-3 px-4">Unidad</th>
+                <th className="py-3 px-4">Registrado por</th>
                 <th className="py-3 px-4 text-right">Estado</th>
               </tr>
             </thead>
@@ -219,6 +260,9 @@ export function HistorialView({
                     <td className="py-3 px-4 text-slate-500">
                       {m.unidad}
                     </td>
+                    <td className="py-3 px-4 text-slate-600 font-medium">
+                      {m.usuarioNombre}
+                    </td>
                     <td className="py-3 px-4 text-right">
                       <span
                         className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
@@ -236,7 +280,7 @@ export function HistorialView({
 
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-slate-500">
+                  <td colSpan={7} className="py-8 text-center text-slate-500">
                     No se encontraron mediciones para los filtros seleccionados.
                   </td>
                 </tr>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { resolveAlerta } from "@/lib/actions/alertas";
 
@@ -24,6 +25,8 @@ export function AlertasTable({
   alertas: AlertaItem[];
   canResolve: boolean;
 }) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const [selectedAlerta, setSelectedAlerta] = useState<AlertaItem | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
@@ -32,9 +35,14 @@ export function AlertasTable({
   const startIndex = (currentPage - 1) * pageSize;
   const currentItems = alertas.slice(startIndex, startIndex + pageSize);
 
-  const handleResolve = async (id: string) => {
-    await resolveAlerta(id);
-    setSelectedAlerta(null);
+  const handleResolve = (id: string) => {
+    startTransition(async () => {
+      const res = await resolveAlerta(id);
+      if (res.ok) {
+        setSelectedAlerta(null);
+        router.refresh();
+      }
+    });
   };
 
   return (
@@ -207,10 +215,11 @@ export function AlertasTable({
               {canResolve && !selectedAlerta.resuelta && (
                 <button
                   type="button"
+                  disabled={isPending}
                   onClick={() => handleResolve(selectedAlerta.id)}
-                  className="rounded-md bg-[#133863] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#0c2442]"
+                  className="rounded-md bg-[#133863] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#0c2442] disabled:opacity-60 transition-colors"
                 >
-                  Marcar como resuelta
+                  {isPending ? "Resolviendo..." : "Marcar como resuelta"}
                 </button>
               )}
             </div>

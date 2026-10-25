@@ -31,7 +31,9 @@ export function RegistroMedicionView({
   const [success, setSuccess] = useState(false);
   const [pending, start] = useTransition();
 
-  const [selectedParametro, setSelectedParametro] = useState("Diámetro");
+  const [selectedParametro, setSelectedParametro] = useState(
+    () => rangos[0]?.parametro || "Diámetro"
+  );
   const [valor, setValor] = useState<string>("");
   const [fechaHora, setFechaHora] = useState(() => {
     // Current ISO string formatted for datetime-local input
@@ -119,9 +121,11 @@ export function RegistroMedicionView({
                 onChange={(e) => setSelectedParametro(e.target.value)}
                 className="input"
               >
-                <option value="Diámetro">Diámetro</option>
-                <option value="Desgaste">Desgaste</option>
-                <option value="Conicidad">Conicidad</option>
+                {rangos.map((r) => (
+                  <option key={r.parametro} value={r.parametro}>
+                    {r.parametro}
+                  </option>
+                ))}
               </select>
             </div>
 

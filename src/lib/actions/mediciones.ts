@@ -55,8 +55,13 @@ export async function createMedicion(formData: FormData): Promise<ActionResult> 
     }
 
     // Buscar rango técnico correspondiente
-    const rango = await prisma.rangoTecnico.findUnique({
-      where: { parametro: parsed.data.parametro },
+    const rango = await prisma.rangoTecnico.findFirst({
+      where: {
+        parametro: {
+          equals: parsed.data.parametro,
+          mode: "insensitive",
+        },
+      },
     });
 
     let fueraDeRango = false;
@@ -69,10 +74,14 @@ export async function createMedicion(formData: FormData): Promise<ActionResult> 
       if (parsed.data.valor < rango.minimo || parsed.data.valor > rango.maximo) {
         fueraDeRango = true;
       }
-    } else if (parsed.data.parametro === "Diámetro") {
-      if (parsed.data.valor < 560 || parsed.data.valor > 620) {
+    } else if (
+      parsed.data.parametro.toLowerCase() === "diámetro" ||
+      parsed.data.parametro.toLowerCase() === "diametro"
+    ) {
+      if (parsed.data.valor < rodillo.diametroMinimo || parsed.data.valor > rodillo.diametroOriginal) {
         fueraDeRango = true;
       }
+      rangoTexto = `${rodillo.diametroMinimo} - ${rodillo.diametroOriginal}`;
     }
 
     const estadoMedicion = fueraDeRango ? "Fuera de rango" : "Normal";
@@ -87,7 +96,11 @@ export async function createMedicion(formData: FormData): Promise<ActionResult> 
           valor: parsed.data.valor,
           unidad,
           estado: estadoMedicion,
-          diametro: parsed.data.parametro === "Diámetro" ? parsed.data.valor : rodillo.diametroActual,
+          diametro:
+            parsed.data.parametro.toLowerCase().includes("diám") ||
+            parsed.data.parametro.toLowerCase().includes("diam")
+              ? parsed.data.valor
+              : rodillo.diametroActual,
           profundidadRanura: parsed.data.profundidadRanura,
           anguloRanura: parsed.data.anguloRanura,
           horasOperacion: parsed.data.horasOperacion,
@@ -98,19 +111,38 @@ export async function createMedicion(formData: FormData): Promise<ActionResult> 
         },
       });
 
-      // 2. Si el parámetro fue diámetro, actualizar diámetro del rodillo
-      if (parsed.data.parametro === "Diámetro") {
+      // 2. Actualizar estado del rodillo
+      const isDiametro =
+        parsed.data.parametro.toLowerCase().includes("diám") ||
+        parsed.data.parametro.toLowerCase().includes("diam");
+
+      if (isDiametro) {
         await tx.rodillo.update({
           where: { id: rodillo.id },
           data: {
             diametroActual: parsed.data.valor,
-            estado: fueraDeRango ? "FUERA_RANGO" : undefined,
+            estado: fueraDeRango ? "FUERA_RANGO" : "EN_OPERACION",
+          },
+        });
+      } else if (fueraDeRango) {
+        await tx.rodillo.update({
+          where: { id: rodillo.id },
+          data: {
+            estado: "EN_REVISION",
           },
         });
       }
 
       // 3. Crear alerta si está fuera de rango
       if (fueraDeRango) {
+        let tipoAlerta: "DIAMETRO_MINIMO" | "DESGASTE_ACELERADO" | "FUERA_DE_RANGO" = "FUERA_DE_RANGO";
+        const pLower = parsed.data.parametro.toLowerCase();
+        if (pLower.includes("diám") || pLower.includes("diam")) {
+          tipoAlerta = "DIAMETRO_MINIMO";
+        } else if (pLower.includes("desgaste")) {
+          tipoAlerta = "DESGASTE_ACELERADO";
+        }
+
         await tx.alerta.create({
           data: {
             rodilloId: rodillo.id,
@@ -119,17 +151,21 @@ export async function createMedicion(formData: FormData): Promise<ActionResult> 
             unidad,
             rango: rangoTexto,
             estado: "Fuera de rango",
-            tipo: "FUERA_DE_RANGO",
+            tipo: tipoAlerta,
             mensaje: `Medición de ${parsed.data.parametro} fuera de rango admisible (${parsed.data.valor} ${unidad} fuera de ${rangoTexto} ${unidad})`,
+            resuelta: false,
           },
         });
       }
     });
 
+    revalidatePath("/", "layout");
     revalidatePath("/dashboard");
     revalidatePath("/mediciones");
+    revalidatePath("/mediciones/nueva");
     revalidatePath("/historial");
     revalidatePath("/alertas");
+    revalidatePath("/rodillos");
     revalidatePath(`/rodillos/${rodillo.id}`);
     return { ok: true };
   } catch (e) {
@@ -189,6 +225,7 @@ export async function updateMedicion(formData: FormData): Promise<ActionResult> 
       },
     });
 
+    revalidatePath("/", "layout");
     revalidatePath("/mediciones");
     revalidatePath("/historial");
     revalidatePath("/dashboard");
@@ -211,6 +248,7 @@ export async function deleteMedicion(id: string): Promise<ActionResult> {
 
     await prisma.medicion.delete({ where: { id } });
 
+    revalidatePath("/", "layout");
     revalidatePath("/mediciones");
     revalidatePath("/historial");
     revalidatePath("/dashboard");

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { updateRangosTecnicos } from "@/lib/actions/configuracion";
 
 interface RangoRow {
@@ -24,13 +25,13 @@ export function ConfiguracionRangosView({
 
   const handleValueChange = (
     index: number,
-    field: "minimo" | "maximo" | "unidad",
+    field: "parametro" | "minimo" | "maximo" | "unidad",
     value: string
   ) => {
     setRangos((prev) => {
       const next = [...prev];
-      if (field === "unidad") {
-        next[index] = { ...next[index], unidad: value };
+      if (field === "parametro" || field === "unidad") {
+        next[index] = { ...next[index], [field]: value };
       } else {
         const num = parseFloat(value);
         next[index] = { ...next[index], [field]: isNaN(num) ? 0 : num };
@@ -39,12 +40,21 @@ export function ConfiguracionRangosView({
     });
   };
 
+  const handleAddRow = () => {
+    const newIdx = rangos.length;
+    setRangos((prev) => [
+      ...prev,
+      { parametro: `Parámetro ${prev.length + 1}`, minimo: 0, maximo: 10, unidad: "mm" },
+    ]);
+    setEditingIndex(newIdx);
+  };
+
   const handleSave = () => {
     setMessage(null);
     start(async () => {
       const res = await updateRangosTecnicos(rangos);
       if (res.ok) {
-        setMessage({ text: "Rangos técnicos actualizados correctamente.", ok: true });
+        setMessage({ text: "Rangos técnicos actualizados correctamente en base de datos.", ok: true });
         setEditingIndex(null);
       } else {
         setMessage({ text: res.error, ok: false });
@@ -55,13 +65,38 @@ export function ConfiguracionRangosView({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-xl font-bold tracking-tight text-slate-900">
-          Configuración de rangos técnicos
-        </h1>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Define los valores de referencia para cada parámetro
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight text-slate-900">
+            Configuración de rangos técnicos
+          </h1>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Define los valores de referencia para cada parámetro
+          </p>
+        </div>
+
+        {canEdit && (
+          <div className="flex items-center gap-2">
+            <Link
+              href="/admin/usuarios"
+              className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+            >
+              <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              <span>Usuarios y roles</span>
+            </Link>
+
+            <button
+              type="button"
+              onClick={handleAddRow}
+              className="inline-flex items-center gap-1 rounded-md bg-[#133863] px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-[#0c2442] transition-colors"
+            >
+              <span>+</span>
+              <span>Agregar parámetro</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {message && (
@@ -93,9 +128,18 @@ export function ConfiguracionRangosView({
               {rangos.map((r, index) => {
                 const isEditing = editingIndex === index || editingIndex === -1;
                 return (
-                  <tr key={r.parametro} className="hover:bg-slate-50/80 transition-colors">
+                  <tr key={`${r.parametro}-${index}`} className="hover:bg-slate-50/80 transition-colors">
                     <td className="py-3.5 px-4 font-semibold text-slate-900">
-                      {r.parametro}
+                      {isEditing && canEdit ? (
+                        <input
+                          type="text"
+                          value={r.parametro}
+                          onChange={(e) => handleValueChange(index, "parametro", e.target.value)}
+                          className="w-36 rounded border border-slate-300 px-2 py-1 text-xs text-slate-900 focus:border-blue-600 focus:outline-none"
+                        />
+                      ) : (
+                        <span>{r.parametro}</span>
+                      )}
                     </td>
 
                     <td className="py-3.5 px-4">

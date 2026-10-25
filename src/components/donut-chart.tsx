@@ -14,9 +14,9 @@ interface DonutChartProps {
 }
 
 export function DonutChart({
-  enRangoCount = 9,
-  enRevisionCount = 2,
-  fueraDeRangoCount = 1,
+  enRangoCount = 0,
+  enRevisionCount = 0,
+  fueraDeRangoCount = 0,
 }: DonutChartProps) {
   const total = enRangoCount + enRevisionCount + fueraDeRangoCount;
 

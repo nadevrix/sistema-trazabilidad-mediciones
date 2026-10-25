@@ -83,7 +83,9 @@ export async function createRodillo(formData: FormData): Promise<ActionResult> {
       },
     });
 
+    revalidatePath("/", "layout");
     revalidatePath("/rodillos");
+    revalidatePath("/mediciones/nueva");
     revalidatePath("/dashboard");
     return { ok: true };
   } catch (e) {
@@ -148,8 +150,10 @@ export async function updateRodillo(formData: FormData): Promise<ActionResult> {
       },
     });
 
+    revalidatePath("/", "layout");
     revalidatePath("/rodillos");
     revalidatePath(`/rodillos/${id}`);
+    revalidatePath("/mediciones/nueva");
     revalidatePath("/dashboard");
     return { ok: true };
   } catch (e) {
@@ -163,8 +167,10 @@ export async function deleteRodillo(id: string): Promise<ActionResult> {
 
     await prisma.rodillo.delete({ where: { id } });
 
+    revalidatePath("/", "layout");
     revalidatePath("/rodillos");
     revalidatePath("/mediciones");
+    revalidatePath("/mediciones/nueva");
     revalidatePath("/alertas");
     revalidatePath("/dashboard");
     return { ok: true };

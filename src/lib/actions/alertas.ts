@@ -23,6 +23,7 @@ export async function resolveAlerta(alertaId: string): Promise<ActionResult> {
       },
     });
 
+    revalidatePath("/", "layout");
     revalidatePath("/alertas");
     revalidatePath("/dashboard");
     return { ok: true };

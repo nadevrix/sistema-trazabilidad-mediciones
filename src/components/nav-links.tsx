@@ -9,7 +9,7 @@ interface NavLinksProps {
   onLinkClick?: () => void;
 }
 
-export function NavLinks({ alertasCount = 3, onLinkClick }: NavLinksProps) {
+export function NavLinks({ alertasCount = 0, onLinkClick }: NavLinksProps) {
   const pathname = usePathname();
 
   const links = [

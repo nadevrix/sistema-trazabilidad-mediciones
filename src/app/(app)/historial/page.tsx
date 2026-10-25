@@ -19,6 +19,9 @@ export default async function HistorialPage() {
         rodillo: {
           select: { id: true, codigo: true, nombre: true },
         },
+        usuario: {
+          select: { name: true, username: true },
+        },
       },
     }),
     prisma.rodillo.findMany({
@@ -38,6 +41,7 @@ export default async function HistorialPage() {
     valor: m.valor ?? m.diametro,
     unidad: m.unidad || "mm",
     estado: m.estado,
+    usuarioNombre: m.usuario?.name || m.usuario?.username || "Técnico",
   }));
 
   return <HistorialView mediciones={mediciones} rodillos={rodillos} />;

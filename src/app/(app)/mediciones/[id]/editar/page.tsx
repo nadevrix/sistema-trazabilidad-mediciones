@@ -34,14 +34,14 @@ export default async function EditarMedicionPage({
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       <div>
-        <Link href="/mediciones" className="text-sm text-[#8b1528]">
-          ← Volver
+        <Link href="/historial" className="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center gap-1">
+          ← Volver al historial
         </Link>
-        <h2 className="mt-1 font-[family-name:var(--font-display)] text-2xl text-[#8b1528]">
+        <h2 className="mt-2 text-xl font-bold tracking-tight text-slate-900">
           Editar medición
         </h2>
-        <p className="text-sm text-[#5c4d44]">
-          Corregí un registro cargado por error.
+        <p className="text-xs text-slate-500 mt-0.5">
+          Corrige un registro de medición cargado en el sistema
         </p>
       </div>
       <MedicionForm rodillos={rodillos} medicion={medicion} />
