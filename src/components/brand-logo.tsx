@@ -1,46 +1,56 @@
-export function BrandIcon({ className = "w-8 h-8", light = false }: { className?: string; light?: boolean }) {
+export function BrandIcon({
+  className = "w-10 h-10",
+  light = true,
+}: {
+  className?: string;
+  light?: boolean;
+}) {
+  const strokeColor = light ? "#ffffff" : "#0c2340";
+  const accentColor = light ? "#ffffff" : "#133863";
+
   return (
     <svg
-      viewBox="0 0 48 48"
+      viewBox="0 0 64 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
       {/* Outer Gear */}
       <circle
-        cx="24"
-        cy="24"
-        r="17"
-        stroke={light ? "#ffffff" : "#0c2340"}
-        strokeWidth="3.2"
+        cx="36"
+        cy="32"
+        r="18"
+        stroke={strokeColor}
+        strokeWidth="2.8"
         strokeLinecap="round"
       />
-      {/* Gear Teeth (8 teeth) */}
+      {/* Gear teeth */}
       <path
-        d="M24 3v4M24 41v4M3 24h4M41 24h4M9.15 9.15l2.83 2.83M36.02 36.02l2.83 2.83M9.15 38.85l2.83-2.83M36.02 11.98l2.83-2.83"
-        stroke={light ? "#ffffff" : "#0c2340"}
-        strokeWidth="3.2"
+        d="M36 10v4M36 50v4M14 32h4M54 32h4M20.4 16.4l2.8 2.8M48.8 44.8l2.8 2.8M20.4 47.6l2.8-2.8M48.8 19.2l2.8-2.8"
+        stroke={strokeColor}
+        strokeWidth="2.8"
         strokeLinecap="round"
       />
-      {/* Precision Caliper / Measurement Jaw */}
+      {/* Caliper slide arm on left */}
       <path
-        d="M17 18h14M17 18v12M21 18v8M31 18v12"
-        stroke={light ? "#60a5fa" : "#2563eb"}
-        strokeWidth="2.5"
+        d="M8 26h20M8 26v12M12 26v8M28 26v12"
+        stroke={accentColor}
+        strokeWidth="2.4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      {/* Center roller / cylinder being measured */}
+      {/* Center cylinder inside gear */}
       <circle
-        cx="24"
-        cy="24"
-        r="3.5"
-        fill={light ? "#ffffff" : "#0c2340"}
+        cx="36"
+        cy="32"
+        r="4.5"
+        stroke={strokeColor}
+        strokeWidth="2.4"
       />
-      {/* Vernier scale indicator notches */}
+      {/* Scale tick marks */}
       <path
-        d="M23 15v-2M25 15v-2M27 15v-2"
-        stroke={light ? "#93c5fd" : "#3b82f6"}
+        d="M16 26v-3M20 26v-3M24 26v-3"
+        stroke={accentColor}
         strokeWidth="1.8"
         strokeLinecap="round"
       />
@@ -72,8 +82,8 @@ export function BrandLogo({
         </span>
         {showSubtitle && (
           <span
-            className={`text-[10px] uppercase font-semibold tracking-wider ${
-              light ? "text-blue-200/80" : "text-slate-500"
+            className={`text-[10px] font-medium tracking-wide ${
+              light ? "text-slate-300" : "text-slate-500"
             }`}
           >
             Ingenios Azucareros
