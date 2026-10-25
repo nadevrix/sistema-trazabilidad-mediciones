@@ -97,29 +97,32 @@ export function RodillosTable({
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-200 bg-white text-slate-500 font-semibold">
-                <th className="py-3 px-4">Código</th>
-                <th className="py-3 px-4">Nombre</th>
-                <th className="py-3 px-4">Ubicación</th>
-                <th className="py-3 px-4">Estado</th>
-                <th className="py-3 px-4 text-right">Acciones</th>
+                <th className="py-3 px-3 sm:px-4">Código</th>
+                <th className="py-3 px-4 hidden sm:table-cell">Nombre</th>
+                <th className="py-3 px-4 hidden sm:table-cell">Ubicación</th>
+                <th className="py-3 px-2 sm:px-4">Estado</th>
+                <th className="py-3 px-3 sm:px-4 text-right">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {currentItems.map((r) => (
                 <tr key={r.id} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3.5 px-4 font-semibold text-slate-900">
-                    {r.codigo}
+                  <td className="py-3.5 px-3 sm:px-4 font-semibold text-slate-900">
+                    <div>{r.codigo}</div>
+                    <div className="text-[11px] font-normal text-slate-500 sm:hidden">
+                      {r.nombre || `Rodillo ${r.codigo.replace("R-", "")}`} · {r.ubicacion || r.molino}
+                    </div>
                   </td>
-                  <td className="py-3.5 px-4 text-slate-700">
+                  <td className="py-3.5 px-4 text-slate-700 hidden sm:table-cell">
                     {r.nombre || `Rodillo ${r.codigo.replace("R-", "")}`}
                   </td>
-                  <td className="py-3.5 px-4 text-slate-600">
+                  <td className="py-3.5 px-4 text-slate-600 hidden sm:table-cell">
                     {r.ubicacion || r.molino}
                   </td>
-                  <td className="py-3.5 px-4">
+                  <td className="py-3.5 px-2 sm:px-4">
                     {getStatusBadge(r.estado)}
                   </td>
-                  <td className="py-3.5 px-4 text-right">
+                  <td className="py-3.5 px-3 sm:px-4 text-right">
                     <div className="inline-flex items-center gap-2">
                       {/* View icon */}
                       <Link

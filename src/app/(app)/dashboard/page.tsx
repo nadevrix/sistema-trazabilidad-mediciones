@@ -63,17 +63,17 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      {/* 4 Metric Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* 4 Metric Cards (2x2 grid on mobile matching reference phone mockup, 4 cols on desktop) */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {/* Card 1: Total de rodillos */}
-        <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
+        <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3.5 sm:p-5 shadow-xs">
           <div>
-            <p className="text-xs font-medium text-slate-500">Total de rodillos</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">{totalRodillos}</p>
+            <p className="text-[11px] sm:text-xs font-medium text-slate-500">Total de rodillos</p>
+            <p className="mt-1 sm:mt-2 text-xl sm:text-2xl font-bold text-slate-900">{totalRodillos}</p>
           </div>
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+          <div className="flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
             {/* Roller / cylinder icon */}
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <ellipse cx="12" cy="7" rx="8" ry="3" strokeWidth={2} />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 1.657 3.582 3 8 3s8-1.343 8-3V7" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 12c0 1.657 3.582 3 8 3s8-1.343 8-3" />
@@ -81,45 +81,45 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/* Card 2: Mediciones hoy */}
-        <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
+        {/* Card 2: Alertas activas */}
+        <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3.5 sm:p-5 shadow-xs">
           <div>
-            <p className="text-xs font-medium text-slate-500">Mediciones hoy</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">{totalMediciones}</p>
+            <p className="text-[11px] sm:text-xs font-medium text-slate-500">Alertas activas</p>
+            <p className="mt-1 sm:mt-2 text-xl sm:text-2xl font-bold text-slate-900">{alertasActivas}</p>
           </div>
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-            {/* Bar chart icon */}
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-          </div>
-        </div>
-
-        {/* Card 3: Alertas activas */}
-        <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
-          <div>
-            <p className="text-xs font-medium text-slate-500">Alertas activas</p>
-            <p className="mt-2 text-2xl font-bold text-slate-900">{alertasActivas}</p>
-          </div>
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+          <div className="flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
             {/* Alert triangle icon */}
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
         </div>
 
-        {/* Card 4: Última actualización */}
-        <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
+        {/* Card 3: Mediciones hoy */}
+        <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3.5 sm:p-5 shadow-xs">
           <div>
-            <p className="text-xs font-medium text-slate-500">Última actualización</p>
-            <p className="mt-2 text-base font-semibold text-slate-900">
+            <p className="text-[11px] sm:text-xs font-medium text-slate-500">Mediciones hoy</p>
+            <p className="mt-1 sm:mt-2 text-xl sm:text-2xl font-bold text-slate-900">{totalMediciones}</p>
+          </div>
+          <div className="flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+            {/* Bar chart icon */}
+            <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Card 4: Última actualización */}
+        <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3.5 sm:p-5 shadow-xs">
+          <div>
+            <p className="text-[11px] sm:text-xs font-medium text-slate-500">Última actualización</p>
+            <p className="mt-1 sm:mt-2 text-xs sm:text-base font-semibold text-slate-900 truncate">
               {ultimaActualizacionStr}
             </p>
           </div>
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+          <div className="flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600 shrink-0">
             {/* Calendar icon */}
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
@@ -146,11 +146,11 @@ export default async function DashboardPage() {
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="border-b border-slate-200 text-slate-500 font-semibold">
-                  <th className="pb-3 pr-4">Fecha</th>
-                  <th className="pb-3 px-4">Rodillo</th>
-                  <th className="pb-3 px-4">Parámetro</th>
-                  <th className="pb-3 px-4">Valor</th>
-                  <th className="pb-3 pl-4 text-right">Estado</th>
+                  <th className="pb-3 pr-2 sm:pr-4 hidden sm:table-cell">Fecha</th>
+                  <th className="pb-3 px-2 sm:px-4">Rodillo</th>
+                  <th className="pb-3 px-2 sm:px-4">Parámetro</th>
+                  <th className="pb-3 px-2 sm:px-4">Valor</th>
+                  <th className="pb-3 pl-2 sm:pl-4 text-right">Estado</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -158,24 +158,27 @@ export default async function DashboardPage() {
                   const isNormal = m.estado === "Normal";
                   return (
                     <tr key={m.id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="py-3 pr-4 text-slate-600">
+                      <td className="py-2.5 sm:py-3 pr-2 sm:pr-4 text-slate-600 hidden sm:table-cell">
                         {formatDate(m.fecha)}
                       </td>
-                      <td className="py-3 px-4 font-semibold text-slate-900">
-                        {m.rodillo.codigo}
+                      <td className="py-2.5 sm:py-3 px-2 sm:px-4 font-semibold text-slate-900">
+                        <div>{m.rodillo.codigo}</div>
+                        <div className="text-[10px] font-normal text-slate-400 sm:hidden">
+                          {formatDate(m.fecha).slice(11)}
+                        </div>
                       </td>
-                      <td className="py-3 px-4 text-slate-700">
+                      <td className="py-2.5 sm:py-3 px-2 sm:px-4 text-slate-700">
                         {m.parametro}
                       </td>
-                      <td className="py-3 px-4 font-medium text-slate-900">
+                      <td className="py-2.5 sm:py-3 px-2 sm:px-4 font-medium text-slate-900">
                         {m.valor ?? m.diametro} {m.unidad || "mm"}
                       </td>
-                      <td className="py-3 pl-4 text-right">
+                      <td className="py-2.5 sm:py-3 pl-2 sm:pl-4 text-right">
                         <span
-                          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
+                          className={`inline-flex items-center gap-1 rounded-full px-2 sm:px-2.5 py-0.5 text-[10px] sm:text-[11px] font-semibold ${
                             isNormal
                               ? "bg-emerald-50 text-emerald-700 border border-emerald-200/60"
-                              : "bg-amber-50 text-amber-700 border border-amber-200/60"
+                              : "bg-red-50 text-red-700 border border-red-200/60"
                           }`}
                         >
                           {isNormal ? (

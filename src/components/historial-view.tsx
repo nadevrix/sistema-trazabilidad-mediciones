@@ -226,13 +226,13 @@ export function HistorialView({
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-200 bg-white text-slate-500 font-semibold">
-                <th className="py-3 px-4">Fecha</th>
-                <th className="py-3 px-4">Rodillo</th>
-                <th className="py-3 px-4">Parámetro</th>
-                <th className="py-3 px-4">Valor</th>
-                <th className="py-3 px-4">Unidad</th>
-                <th className="py-3 px-4">Registrado por</th>
-                <th className="py-3 px-4 text-right">Estado</th>
+                <th className="py-3 px-3 sm:px-4">Fecha</th>
+                <th className="py-3 px-2 sm:px-4">Rodillo</th>
+                <th className="py-3 px-2 sm:px-4">Parámetro</th>
+                <th className="py-3 px-2 sm:px-4">Valor</th>
+                <th className="py-3 px-4 hidden sm:table-cell">Unidad</th>
+                <th className="py-3 px-4 hidden md:table-cell">Registrado por</th>
+                <th className="py-3 px-2 sm:px-4 text-right">Estado</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -240,10 +240,13 @@ export function HistorialView({
                 const isNormal = m.estado === "Normal";
                 return (
                   <tr key={m.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-3 px-4 text-slate-600">
-                      {m.fecha}
+                    <td className="py-3 px-3 sm:px-4 text-slate-600">
+                      <div>{m.fecha}</div>
+                      <div className="text-[10px] text-slate-400 md:hidden">
+                        Por: {m.usuarioNombre}
+                      </div>
                     </td>
-                    <td className="py-3 px-4 font-semibold text-slate-900">
+                    <td className="py-3 px-2 sm:px-4 font-semibold text-slate-900">
                       <Link
                         href={`/rodillos/${m.rodilloId}`}
                         className="text-blue-700 hover:underline"
@@ -251,21 +254,21 @@ export function HistorialView({
                         {m.rodilloCodigo}
                       </Link>
                     </td>
-                    <td className="py-3 px-4 text-slate-700">
+                    <td className="py-3 px-2 sm:px-4 text-slate-700">
                       {m.parametro}
                     </td>
-                    <td className="py-3 px-4 font-medium text-slate-900">
-                      {m.valor}
+                    <td className="py-3 px-2 sm:px-4 font-medium text-slate-900">
+                      {m.valor} <span className="text-slate-500 sm:hidden">{m.unidad}</span>
                     </td>
-                    <td className="py-3 px-4 text-slate-500">
+                    <td className="py-3 px-4 text-slate-500 hidden sm:table-cell">
                       {m.unidad}
                     </td>
-                    <td className="py-3 px-4 text-slate-600 font-medium">
+                    <td className="py-3 px-4 text-slate-600 font-medium hidden md:table-cell">
                       {m.usuarioNombre}
                     </td>
-                    <td className="py-3 px-4 text-right">
+                    <td className="py-3 px-2 sm:px-4 text-right">
                       <span
-                        className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
+                        className={`inline-flex items-center gap-1 rounded-full px-2 sm:px-2.5 py-0.5 text-[10px] sm:text-[11px] font-semibold ${
                           isNormal
                             ? "bg-emerald-50 text-emerald-700 border border-emerald-200/60"
                             : "bg-red-50 text-red-700 border border-red-200/60"

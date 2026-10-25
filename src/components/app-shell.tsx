@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Role } from "@prisma/client";
 import { logoutAction } from "@/lib/actions/auth";
 import { ROLE_LABELS } from "@/lib/roles";
-import { BrandLogo } from "@/components/brand-logo";
+import { BrandIcon, BrandLogo } from "@/components/brand-logo";
 import { NavLinks } from "@/components/nav-links";
 
 interface AppShellProps {
@@ -83,14 +83,14 @@ export function AppShell({ children, user, alertasCount = 0 }: AppShellProps) {
 
       {/* Main Container */}
       <div className="flex flex-1 flex-col min-w-0">
-        {/* Top Navbar */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 md:px-8 shadow-xs">
+        {/* Top Navbar: Dark navy on mobile (matching reference phone mockup), white on desktop */}
+        <header className="sticky top-0 z-30 flex h-14 sm:h-16 items-center justify-between border-b border-[#1b3350] lg:border-slate-200 bg-[#0b1d33] lg:bg-white px-3 sm:px-4 md:px-8 shadow-xs">
           {/* Mobile hamburger button */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
-              className="rounded-md p-1.5 text-slate-600 hover:bg-slate-100 lg:hidden"
+              className="rounded-md p-1.5 text-slate-200 hover:text-white hover:bg-white/10 lg:text-slate-600 lg:hover:bg-slate-100 lg:hidden"
               aria-label="Abrir menú"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -99,12 +99,18 @@ export function AppShell({ children, user, alertasCount = 0 }: AppShellProps) {
             </button>
           </div>
 
+          {/* Centered Mobile Title (as shown in phone mockup) */}
+          <div className="flex items-center gap-1.5 lg:hidden">
+            <BrandIcon className="w-5 h-5" light={true} />
+            <span className="text-sm font-bold tracking-tight text-white">Trazabilidad</span>
+          </div>
+
           {/* Right Header: Alerts Bell & User Profile */}
-          <div className="flex items-center gap-5 ml-auto">
+          <div className="flex items-center gap-3 sm:gap-5">
             {/* Notification Bell */}
             <Link
               href="/alertas"
-              className="relative p-2 text-slate-500 hover:text-slate-800 transition-colors"
+              className="relative p-2 text-slate-200 hover:text-white lg:text-slate-500 lg:hover:text-slate-800 transition-colors"
               title="Ver alertas"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -116,7 +122,7 @@ export function AppShell({ children, user, alertasCount = 0 }: AppShellProps) {
                 />
               </svg>
               {alertasCount > 0 && (
-                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-600 ring-2 ring-white" />
+                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-600 ring-2 ring-[#0b1d33] lg:ring-white" />
               )}
             </Link>
 
@@ -125,18 +131,18 @@ export function AppShell({ children, user, alertasCount = 0 }: AppShellProps) {
               <button
                 type="button"
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="flex items-center gap-3 text-left focus:outline-none"
+                className="flex items-center gap-2 sm:gap-3 text-left focus:outline-none"
               >
                 {/* Circular Avatar */}
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1b4372] text-xs font-bold text-white shadow-xs">
+                <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-[#1b4372] text-xs font-bold text-white shadow-xs ring-1 ring-white/20 lg:ring-transparent">
                   {initials}
                 </div>
                 {/* Name & Role */}
                 <div className="hidden text-left sm:block">
-                  <p className="text-xs font-semibold text-slate-800 leading-tight">
+                  <p className="text-xs font-semibold text-white lg:text-slate-800 leading-tight">
                     {user.name || "Usuario"}
                   </p>
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-slate-300 lg:text-slate-500">
                     {ROLE_LABELS[user.role] ?? "Administrador"}
                   </p>
                 </div>
@@ -183,7 +189,7 @@ export function AppShell({ children, user, alertasCount = 0 }: AppShellProps) {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 p-4 md:p-8">
+        <main className="flex-1 p-3.5 sm:p-4 md:p-8">
           <div className="mx-auto max-w-7xl">
             {children}
           </div>

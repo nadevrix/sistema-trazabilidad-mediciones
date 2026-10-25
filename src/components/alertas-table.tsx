@@ -53,36 +53,44 @@ export function AlertasTable({
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-200 bg-white text-slate-500 font-semibold">
-                <th className="py-3 px-4">Fecha</th>
-                <th className="py-3 px-4">Rodillo</th>
-                <th className="py-3 px-4">Parámetro</th>
-                <th className="py-3 px-4">Valor</th>
-                <th className="py-3 px-4">Rango</th>
-                <th className="py-3 px-4">Estado</th>
-                <th className="py-3 px-4 text-right">Acciones</th>
+                <th className="py-3 px-4 hidden sm:table-cell">Fecha</th>
+                <th className="py-3 px-3 sm:px-4">Rodillo</th>
+                <th className="py-3 px-2 sm:px-4">Parámetro</th>
+                <th className="py-3 px-2 sm:px-4">Valor</th>
+                <th className="py-3 px-4 hidden md:table-cell">Rango</th>
+                <th className="py-3 px-2 sm:px-4">Estado</th>
+                <th className="py-3 px-3 sm:px-4 text-right">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {currentItems.map((a) => (
                 <tr key={a.id} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3.5 px-4 text-slate-600">{a.fecha}</td>
-                  <td className="py-3.5 px-4 font-semibold text-slate-900">
+                  <td className="py-3.5 px-4 text-slate-600 hidden sm:table-cell">{a.fecha}</td>
+                  <td className="py-3.5 px-3 sm:px-4 font-semibold text-slate-900">
                     <Link
                       href={`/rodillos/${a.rodilloId}`}
                       className="text-blue-700 hover:underline"
                     >
                       {a.rodilloCodigo}
                     </Link>
+                    <div className="text-[10px] font-normal text-slate-400 sm:hidden">
+                      {a.fecha}
+                    </div>
                   </td>
-                  <td className="py-3.5 px-4 text-slate-700">{a.parametro}</td>
-                  <td className="py-3.5 px-4 font-medium text-slate-900">{a.valor}</td>
-                  <td className="py-3.5 px-4 text-slate-500">{a.rango}</td>
-                  <td className="py-3.5 px-4">
-                    <span className="inline-flex rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-semibold text-red-700 border border-red-200/60">
+                  <td className="py-3.5 px-2 sm:px-4 text-slate-700">{a.parametro}</td>
+                  <td className="py-3.5 px-2 sm:px-4 font-medium text-slate-900">
+                    <div>{a.valor}</div>
+                    <div className="text-[10px] text-slate-400 md:hidden">
+                      Rango: {a.rango}
+                    </div>
+                  </td>
+                  <td className="py-3.5 px-4 text-slate-500 hidden md:table-cell">{a.rango}</td>
+                  <td className="py-3.5 px-2 sm:px-4">
+                    <span className="inline-flex rounded-full bg-red-50 px-2 sm:px-2.5 py-0.5 text-[10px] sm:text-xs font-semibold text-red-700 border border-red-200/60">
                       {a.estado}
                     </span>
                   </td>
-                  <td className="py-3.5 px-4 text-right">
+                  <td className="py-3.5 px-3 sm:px-4 text-right">
                     <button
                       type="button"
                       onClick={() => setSelectedAlerta(a)}

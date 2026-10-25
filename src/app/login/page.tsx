@@ -5,8 +5,8 @@ import { LoginForm } from "@/components/login-form";
 export default function LoginPage() {
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row bg-white">
-      {/* Left Side: Official Machinery Image & Official Logo (50% width, min-h-screen) */}
-      <div className="relative md:w-1/2 min-h-[380px] md:min-h-screen bg-[#0c2340] text-white p-8 md:p-16 flex flex-col justify-between overflow-hidden">
+      {/* Left Side: Official Machinery Image & Official Logo (compact hero on mobile, 50% min-h-screen on desktop) */}
+      <div className="relative md:w-1/2 min-h-[220px] md:min-h-screen bg-[#0c2340] text-white p-6 md:p-16 flex flex-col justify-between overflow-hidden">
         {/* Background Image: Official photograph provided by user */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -21,26 +21,26 @@ export default function LoginPage() {
         </div>
 
         {/* Top Branding: Official Logo + Title */}
-        <div className="relative z-10 space-y-5 pt-4 md:pt-8">
+        <div className="relative z-10 space-y-3 md:space-y-5 pt-1 md:pt-8">
           {/* Official logo icon without box */}
-          <div className="w-16 h-14 relative">
-            <BrandIcon className="w-16 h-14" light={true} />
+          <div className="w-12 h-10 md:w-16 md:h-14 relative">
+            <BrandIcon className="w-12 h-10 md:w-16 md:h-14" light={true} />
           </div>
 
           <div>
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
+            <h1 className="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
               Sistema de Trazabilidad
               <br />
               de Mediciones
             </h1>
-            <p className="mt-2 text-sm md:text-base font-normal text-slate-200 tracking-wide">
+            <p className="mt-1 md:mt-2 text-xs md:text-base font-normal text-slate-200 tracking-wide">
               Ingenios Azucareros
             </p>
           </div>
         </div>
 
-        {/* Bottom Slogan with subtle divider */}
-        <div className="relative z-10 pb-4 md:pb-8">
+        {/* Bottom Slogan with subtle divider (visible on desktop) */}
+        <div className="relative z-10 pb-2 md:pb-8 hidden md:block">
           <div className="w-full pt-6 border-t border-white/20">
             <p className="text-xs md:text-sm font-medium tracking-wide text-slate-200">
               Controla · Registra · Analiza
@@ -49,8 +49,8 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Side: Login Form (50% width, min-h-screen) */}
-      <div className="md:w-1/2 flex flex-col justify-between bg-white p-8 md:p-16 min-h-[480px] md:min-h-screen">
+      {/* Right Side: Login Form (50% width, min-h-screen on desktop) */}
+      <div className="md:w-1/2 flex flex-col justify-between bg-white p-6 sm:p-8 md:p-16 min-h-[400px] md:min-h-screen">
         <div className="my-auto max-w-md w-full mx-auto">
           <div className="mb-8">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">
